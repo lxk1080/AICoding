@@ -1,0 +1,11 @@
+{
+  "name": "claude-snake",
+  "version": "1.0.0",
+  "description": "贪吃蛇小游戏",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4"
+  }
+}

@@ -1,0 +1,71 @@
+# Version control
+.git/
+.gitignore
+
+# Dependencies
+node_modules/
+vendor/
+.bundle/
+packages/
+
+# Build outputs
+dist/
+build/
+target/
+out/
+bin/
+obj/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Cache
+__pycache__/
+*.pyc
+*.pyo
+.cache/
+.cache/
+.pytest_cache/
+.eslintcache
+*.tsbuildinfo
+
+# IDE / Editor
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Large data / media files
+*.csv
+*.tsv
+*.parquet
+*.pkl
+*.onnx
+*.bin
+*.h5
+*.pb
+
+# Package manager lock files (typically verbose, unread)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+Gemfile.lock
+Cargo.lock
+
+# Custom files
+preprompt.*
