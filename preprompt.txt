@@ -1,0 +1,28 @@
+目标：
+通过 express 框架写一个 hello world，
+最终在浏览器上通过访问 localhost:3000 可以看到 hello world 显示，
+先写设计文档，不要写代码
+
+项目根目录：claude-express
+
+说明：
+自动生成 claude.md
+生成概要设计文档 /docs/gaiyao.md
+生成详细设计文档 /docs/xiangxi.md
+
+-------------------------------------------------
+
+目标：
+通过 express 框架写一个 hello world，
+最终在浏览器上通过访问 localhost:3000 可以看到 hello world 显示
+
+项目根目录：claude-express
+
+输入：
+/CLAUDE.md
+概要设计文档 /docs/gaiyao.md
+详细设计文档 /docs/xiangxi.md
+
+输出：
+根据文档，实现项目代码，安装依赖，但是不要运行
+有任何不懂的地方必须向我提问

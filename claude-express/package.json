@@ -1,0 +1,14 @@
+{
+  "name": "claude-express",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express Hello World 示例项目",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

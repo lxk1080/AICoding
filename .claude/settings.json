@@ -1,0 +1,20 @@
+{
+  "//": "允许 Claude Code 执行的操作（不再需要每次确认）",
+  "permissions": {
+   "allow": [
+     "Read",
+     "Write",
+     "Bash(npm *)",
+     "Bash(git *)",
+     "Bash(node *)"
+   ],
+   "//": "禁止执行危险的删除命令",
+   "deny": [
+     "Bash(rm -rf *)"
+   ]
+  },
+  "//": "默认使用的模型",
+  "model": "sonnet",
+  "//": "自动紧凑阈值80%（上下文使用超过此比例时自动压缩）",
+  "autoCompactThreshold": 80
+}
