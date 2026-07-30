@@ -27,3 +27,9 @@ Thumbs.db
 # 日志
 *.log
 npm-debug.log*
+
+# API 密钥文件
+mimo_api_key.txt
+
+# 生成的语音文件
+audio_file.wav
