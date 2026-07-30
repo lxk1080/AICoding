@@ -75,7 +75,7 @@ def render_add_form():
             st.rerun()
 
 
-def render_month_selector() -> str:
+def render_month_selector(key: str = "month_selector") -> str:
     """渲染月份筛选器，返回选中的月份 YYYY-MM。"""
     months = get_all_months()
     current_month = get_current_month()
@@ -95,6 +95,7 @@ def render_month_selector() -> str:
         options=months,
         index=default_index,
         format_func=month_label,
+        key=key,
     )
     return selected
 
@@ -144,7 +145,7 @@ def render_trend_chart():
 
 
 def render_records_list(month: str):
-    """渲染明细列表。"""
+    """渲染明细列表，每行附带删除按钮。"""
     st.subheader("📝 明细")
 
     records = get_records(month=month)
@@ -152,35 +153,12 @@ def render_records_list(month: str):
         st.info("本月暂无记录")
         return
 
-    # 转换为 DataFrame 展示
-    data = []
+    # 每行一条记录
     for r in records:
-        data.append({
-            "id": r.id,
-            "日期": r.date.isoformat(),
-            "类型": TYPE_LABEL_MAP[r.type],
-            "分类": r.category,
-            "金额": r.amount,
-            "备注": r.note,
-        })
-
-    df = pd.DataFrame(data)
-
-    # 使用 data_editor 显示，但不允许编辑
-    st.dataframe(
-        df[["日期", "类型", "分类", "金额", "备注"]],
-        use_container_width=True,
-        hide_index=True,
-    )
-
-    # 删除功能
-    with st.expander("🗑️ 删除记录"):
-        record_options = {f"{r.date} {TYPE_LABEL_MAP[r.type]} {r.category} ¥{r.amount:.2f}": r.id for r in records}
-        selected_label = st.selectbox("选择要删除的记录", options=list(record_options.keys()))
-        if st.button("确认删除", type="primary"):
-            record_id = record_options[selected_label]
-            if delete_record(record_id):
-                st.success("删除成功！")
-                st.rerun()
-            else:
-                st.error("删除失败，请重试")
+        c1, c2, c3, c4, c5, c6 = st.columns([1, 0.6, 0.8, 0.8, 1.5, 0.6])
+        c1.write(r.date.isoformat())
+        c2.write(TYPE_LABEL_MAP[r.type])
+        c3.write(r.category)
+        c4.write(f"¥{r.amount:.2f}")
+        c5.write(r.note or "")
+        c6.button("删除", key=f"d_{r.id}", on_click=lambda rid=r.id: delete_record(rid))
