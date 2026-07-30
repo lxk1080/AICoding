@@ -53,3 +53,10 @@
 #### 2. 重要指令
 
 <img src="./pictures/03.jpeg" width="60%"><br/>
+
+#### 3. 自定义斜杆命令
+
+1. 在 .claude 内新建 commands 文件夹
+2. 建立指令文件，例如：date.md
+3. 在 date.md 文件内写入要执行的操作即可
+4. 直接 /date 就可以使用
