@@ -1,6 +1,6 @@
 ## 稍微记录一些重要的命令
 
-### 1. claude-code 安装
+#### 1. claude-code 安装
 
 安装方法：
 
@@ -50,6 +50,6 @@
 - 公开发布（`npm publish`、生产部署等）
 ```
 
-### 2. 重要指令
+#### 2. 重要指令
 
 <img src="./pictures/03.jpeg" width="60%"><br/>
