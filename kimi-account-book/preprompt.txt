@@ -1,0 +1,38 @@
+目标：
+实现一个记账本功能
+技术栈：
+Python
+Streamlit（Web 界面框架）
+sqlite3（数据库，Python 自带，零配置）
+
+项目根目录：kimi-account-book
+
+说明：
+自动生成 claude.md
+生成概要设计文档 /docs/gaiyao.md
+生成详细设计文档 /docs/xiangxi.md
+
+-------------------------------------------------
+
+目标：
+实现一个记账本功能
+技术栈：
+Python
+Streamlit（Web 界面框架）
+sqlite3（数据库，Python 自带，零配置）
+
+项目根目录：kimi-account-book
+
+输入：
+/claude.md
+概要设计文档 /docs/gaiyao.md
+详细设计文档 /docs/xiangxi.md
+
+输出：
+更改后的文档
+
+说明：
+主程序就只有 app.py 一个文件，不利于后续维护，
+你最好按照不同的功能模块拆分成不同的文件，
+只修改相关文档，不要写代码，
+任何不懂的地方向我提问
