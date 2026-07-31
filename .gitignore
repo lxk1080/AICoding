@@ -33,3 +33,7 @@ mimo_api_key.txt
 
 # 生成的语音文件
 audio_file.wav
+
+# agent 相关文件
+.agents/
+.claude/skills/
