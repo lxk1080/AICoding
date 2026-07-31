@@ -113,3 +113,17 @@ npx skills add anthropics/skills@frontend-design --agent claude-code -g
 # --agent 可以缩写为 -a
 npx skills add anthropics/skills@frontend-design -a claude-code -g
 ```
+
+其它命令：
+
+```sh
+# 查看帮助，可以看到很多使用示例
+npx skills --help
+
+# 在项目里面安装 skills 时，会携带有一个 skills-lock.json 的文件
+# 可以使用以下命令恢复 skills，类似 npm i 功能
+# 但是这个是个实验性功能，做的不完善
+# 使用这个命令只能恢复到 .agents/ 文件夹，无法恢复到 .claude/ 文件夹内
+# 后续更新后，也许可以支持，先留个痕！
+npx skills experimental_install
+```
