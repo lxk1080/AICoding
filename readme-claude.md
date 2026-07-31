@@ -52,7 +52,7 @@
 
 ##### 1.1 修改配置文件目录
 
-claude-code 的配置文件，默认情况下在：`~/.claude`（Mac、Linux）或 `C:\Users\<username>\.claude`（Window）
+claude-code 的配置文件，默认情况下在：`~/.claude`（Mac、Linux）或 `C:\Users\[用户名]\.claude`（Window）
 
 在 Window 环境，如果担心各种文件占空间，想修改配置文件目录，可以通过环境变量 `CLAUDE_CONFIG_DIR` 控制
 
@@ -80,24 +80,28 @@ Vercel 官方 Skill 库：https://github.com/vercel-labs/agent-skills
 
 安装方法：
 ```sh
-# 安装 Anthropic 官方全部 Skill（全局安装到用户目录）
+# 安装 Anthropic 官方全部 Skill（ -g 代表安装到用户目录，不写的话则可以安装到项目目录）
+# 即使 claude-code 的配置文件目录被修改了，也不用担心，skills 会自动找到的
 $ npx skills add anthropics/skills -g
 
-# 只安装指定 Skill（推荐按需安装，安装到项目目录）
-$ npx skills add anthropics/skills@frontend-design
-$ npx skills add anthropics/skills@mcp-builder
-$ npx skills add anthropics/skills@skill-creator
+# 只安装指定 Skill（推荐按需安装）
+$ npx skills add anthropics/skills@frontend-design -g
+$ npx skills add anthropics/skills@mcp-builder -g
+$ npx skills add anthropics/skills@skill-creator -g
 
 # 安装整个 Vercel 官方技能库
-npx skills add vercel-labs/agent-skills
+npx skills add vercel-labs/agent-skills -g
 
 # 只单独安装 React 最佳实践（推荐）
-npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices
+npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices -g
+
+# 可以用 --list 查看支持的技能列表
+npx skills add vercel-labs/agent-skills --list
 ```
 
 注意：
 默认情况下，只会安装到通用文件夹 `.agents/` 内，但是这样 claude-code 读取不了，
-claude-code 只会识别 `./claude/skills` 里面的内容，有两种方式解决：
+claude-code 只会识别 `.claude/skills` 里面的内容，有两种方式解决：
 
 1、默认的安装过程中，会有选项可以选择 claude-code，这里要仔细看操作说明，
 它是可以多选的，需要按 `空格` 键选中，最后按 `Enter` 键确认，直接按 Enter 相当于啥也没选。。
@@ -105,7 +109,7 @@ claude-code 只会识别 `./claude/skills` 里面的内容，有两种方式解�
 2、安装时添加参数 `--agent claude-code`，这样就只会安装成 claude-code 适用的方式，例如：
 
 ```sh
-npx skills add anthropics/skills@frontend-design --agent claude-code
+npx skills add anthropics/skills@frontend-design --agent claude-code -g
 # --agent 可以缩写为 -a
-npx skills add anthropics/skills@frontend-design -a claude-code
+npx skills add anthropics/skills@frontend-design -a claude-code -g
 ```
