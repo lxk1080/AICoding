@@ -37,3 +37,4 @@ audio_file.wav
 # agent 相关文件
 .agents/
 .claude/skills/
+.mcp.json
