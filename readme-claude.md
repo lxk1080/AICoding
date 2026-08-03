@@ -173,3 +173,19 @@ npx superpowers-zh
 安装成功图示（增加若干 skills 并且在 CLAUDE.md 增加内容）：
 
 <img src="./pictures/05.jpeg" width="50%"><br/>
+
+### 5. MCP
+
+MCP 是 Anthropic 推出的一个标准化协议，让 AI 工具可以连接外部服务和数据源，可以把 MCP 理解为给 AI 装 "插件" 或 "扩展能力"
+
+**claude-code 内置的 MCP 能力：**
+GitHub MCP Server → 操作 GitHub（创建PR、管理Issue）
+Database MCP Server → 直接查询数据库
+Browser MCP Server → 浏览器自动化测试
+
+**MCP 与 Skill 的关系：**
+
+- **Skill** 定义了 "做什么、怎么做"（流程和规范）
+- **MCP** 提供了 "能力扩展"（让AI能做更多事情）
+
+两者互补：可以在 Skill 中调用 MCP 提供的能力。例如，一个用于部署检查的 skill 可以调用 GitHub MCP 来创建 PR
