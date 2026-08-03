@@ -189,3 +189,50 @@ Browser MCP Server → 浏览器自动化测试
 - **MCP** 提供了 "能力扩展"（让AI能做更多事情）
 
 两者互补：可以在 Skill 中调用 MCP 提供的能力。例如，一个用于部署检查的 skill 可以调用 GitHub MCP 来创建 PR
+
+#### 5.1 添加 MCP 服务
+
+例如有以下 MCP 服务：
+
+```json
+{
+  "mcpServers": {
+    "fetch": {
+      "type": "streamable_http",
+      "url": "https://mcp.api-inference.modelscope.net/xxxxxxxxxxxxxx/mcp"
+    }
+  }
+}
+```
+
+有两种添加方式：
+
+① 使用命令行：
+
+```sh
+# local（默认），会写在 ~/.claude.json 项目分区里
+claude mcp add --transport http fetch https://mcp.api-inference.modelscope.net/xxxxxxxxxxxxxx/mcp
+
+# user（全局），全项目通用，会写在 ~/.claude.json 全局节点
+claude mcp add --scope user --transport http fetch https://mcp.api-inference.modelscope.net/xxxxxxxxxxxxxx/mcp
+
+# 如果需要鉴权（Bearer Token）
+claude mcp add --transport http fetch https://mcp.api-inference.modelscope.net/xxxxxxxxxxxxxx/mcp --header "Authorization: Bearer your-token"
+```
+
+② 在项目根目录创建 `.mcp.json` 文件：
+
+直接把上面的 json 代码复制进去即可（要将此文件加入到 .gitignore，不要暴露服务的 url 链接）
+
+注：无论哪种方式，记得重启 claude-code，重新加载！
+
+**其它 MCP 命令：**
+
+```sh
+# 支持的 mcp 服务列表
+claude mcp list
+# 删除 mcp
+claude mcp remove fetch
+# 更多。。
+claude mcp --help
+```
