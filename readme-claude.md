@@ -1,6 +1,6 @@
 ## 稍微记录一些重要的命令
 
-#### 1. claude-code 安装
+### 1. claude-code 安装
 
 安装方法：
 
@@ -50,7 +50,7 @@
 - 公开发布（`npm publish`、生产部署等）
 ```
 
-##### 1.1 修改配置文件目录
+#### 1.1 修改配置文件目录
 
 claude-code 的配置文件，默认情况下在：`~/.claude`（Mac、Linux）或 `C:\Users\[用户名]\.claude`（Window）
 
@@ -60,18 +60,18 @@ claude-code 的配置文件，默认情况下在：`~/.claude`（Mac、Linux）�
 
 注意，如果使用了 `cc-switch`，也需要同步更改，在 `设置=>高级=>配置文件目录` 下修改配置存储路径
 
-#### 2. 重要指令
+### 2. 重要指令
 
 <img src="./pictures/03.jpeg" width="60%"><br/>
 
-#### 3. 自定义斜杆命令
+### 3. 自定义斜杆命令
 
 1. 在 .claude 内新建 commands 文件夹
 2. 建立指令文件，例如：date.md
 3. 在 date.md 文件内写入要执行的操作即可
 4. 直接 /date 就可以使用
 
-#### 4. skills
+### 4. skills
 
 Anthropic 官方 Skill 库：https://github.com/anthropics/skills
 Vercel 官方 Skill 库：https://github.com/vercel-labs/agent-skills
@@ -128,7 +128,7 @@ npx skills --help
 npx skills experimental_install
 ```
 
-#### 4.5 commands 和 skills 的区别
+#### 4.1 commands 和 skills 的区别
 
 `commands`：内容简单，纯 MD 文件，固定流程的快捷指令，手动调用
 `skills`：内容复杂，可包含多个文件夹和文件，可复用的方法论，模型自动调用
@@ -136,3 +136,40 @@ npx skills experimental_install
 最大的区别就是：`commands 只能自己手动调用，而 skills 是可以自动被调用的`
 
 通过 `/xxx` 方式是 skill 的调用方式，但 Claude Code 把两者统一暴露为可调用的 skill 项了，所以也能通过 skill 工具调用 command
+
+#### 4.2 Superpowers 的使用
+
+Superpowers 本质是一套工作方法论集合
+
+安装前后对比：
+
+| 没装 Superpowers                      | 装了 Superpowers                                             |
+| ------------------------------------- | ------------------------------------------------------------ |
+| 你：“加个批量导出功能”                | 你：“加个批量导出功能”                                       |
+| AI：“好的，我来实现...”（直接写代码） | AI：“在开始前我需要确认：1.导出格式？2.数据量多大？3.需要异步吗？”→给出 2-3 个方案，确认后再动手 |
+
+核心 Skills 一览：
+
+| Skill                      | 功能                              | 触发时机            |
+| -------------------------- | --------------------------------- | ------------------- |
+| 头脑风暴 (brainstorming)   | 需求分析→设计规格，先想清楚再动手 | 新需求/新功能开始时 |
+| 编写计划 (writing-plans)   | 把规格拆成可执行的实施步骤        | 确认设计后          |
+| 执行计划 (executing-plans) | 按计划逐步实施，每步验证          | 开发过程中          |
+| 测试驱动开发 (TDD)         | 严格 TDD：先写测试，再写代码      | 开发核心逻辑时      |
+| 系统化调试 (debugging)     | 四阶段调试法：定位→分析→假设→修复 | 遇到 Bug 时         |
+| 代码审查 (code-review)     | 派遣审查 agent 检查代码质量       | 功能完成后          |
+| 完成前验证 (verification)  | 声称完成前必须跑验证              | 任务结束前          |
+
+安装方法：
+
+```sh
+# 英文版（原版）
+npx superpowers
+
+# 中文增强版（推荐安装这个，包含 6 个中国特色 Skill）
+npx superpowers-zh
+```
+
+安装成功图示（增加若干 skills 并且在 CLAUDE.md 增加内容）：
+
+<img src="./pictures/05.jpeg" width="50%"><br/>
