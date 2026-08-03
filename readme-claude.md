@@ -127,3 +127,12 @@ npx skills --help
 # 后续更新后，也许可以支持，先留个痕！
 npx skills experimental_install
 ```
+
+#### 4.5 commands 和 skills 的区别
+
+`commands`：内容简单，纯 MD 文件，固定流程的快捷指令，手动调用
+`skills`：内容复杂，可包含多个文件夹和文件，可复用的方法论，模型自动调用
+
+最大的区别就是：`commands 只能自己手动调用，而 skills 是可以自动被调用的`
+
+通过 `/xxx` 方式是 skill 的调用方式，但 Claude Code 把两者统一暴露为可调用的 skill 项了，所以也能通过 skill 工具调用 command
