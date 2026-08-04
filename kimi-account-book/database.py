@@ -7,7 +7,7 @@ import sqlite3
 from datetime import datetime, date
 from typing import Optional
 
-from models import Record, RecordType
+from models import Record, RecordType, EXPENSE_CATEGORIES, INCOME_CATEGORIES
 
 DEFAULT_DB_PATH = "data/accounting.db"
 
@@ -38,6 +38,30 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> sqlite3.Connection:
         conn.execute("""
             CREATE INDEX IF NOT EXISTS idx_records_date ON records(date)
         """)
+        # 分类表
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS categories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                type TEXT NOT NULL,
+                name TEXT NOT NULL,
+                is_default INTEGER NOT NULL DEFAULT 0,
+                sort_order INTEGER NOT NULL DEFAULT 0,
+                UNIQUE(type, name)
+            )
+        """)
+        # 如果分类表为空，插入默认分类
+        count = conn.execute("SELECT COUNT(*) as cnt FROM categories").fetchone()["cnt"]
+        if count == 0:
+            for i, cat in enumerate(EXPENSE_CATEGORIES):
+                conn.execute(
+                    "INSERT INTO categories (type, name, is_default, sort_order) VALUES (?, ?, 1, ?)",
+                    (RecordType.EXPENSE.value, cat, i),
+                )
+            for i, cat in enumerate(INCOME_CATEGORIES):
+                conn.execute(
+                    "INSERT INTO categories (type, name, is_default, sort_order) VALUES (?, ?, 1, ?)",
+                    (RecordType.INCOME.value, cat, i),
+                )
     return conn
 
 
@@ -196,3 +220,61 @@ def get_trend_summary(months: int = 6, db_path: str = DEFAULT_DB_PATH) -> dict:
         "income": [income_map[m] for m in month_list],
         "expense": [expense_map[m] for m in month_list],
     }
+
+
+# ========== 分类管理 ==========
+
+
+def get_categories(record_type: RecordType, db_path: str = DEFAULT_DB_PATH) -> list[dict]:
+    """获取指定类型的所有分类，按 sort_order 排序。"""
+    conn = get_connection(db_path)
+    rows = conn.execute(
+        "SELECT id, name, is_default FROM categories WHERE type = ? ORDER BY sort_order",
+        (record_type.value,),
+    ).fetchall()
+    return [{"id": row["id"], "name": row["name"], "is_default": row["is_default"]} for row in rows]
+
+
+def add_category(record_type: RecordType, name: str, db_path: str = DEFAULT_DB_PATH) -> bool:
+    """添加自定义分类，成功返回 True，重名返回 False。"""
+    conn = get_connection(db_path)
+    # 获取当前最大 sort_order
+    row = conn.execute(
+        "SELECT COALESCE(MAX(sort_order), -1) + 1 as next_order FROM categories WHERE type = ?",
+        (record_type.value,),
+    ).fetchone()
+    next_order = row["next_order"]
+    try:
+        with conn:
+            conn.execute(
+                "INSERT INTO categories (type, name, is_default, sort_order) VALUES (?, ?, 0, ?)",
+                (record_type.value, name, next_order),
+            )
+        return True
+    except sqlite3.IntegrityError:
+        return False
+
+
+def delete_category(category_id: int, db_path: str = DEFAULT_DB_PATH) -> bool:
+    """删除分类（仅允许删除自定义分类）。"""
+    conn = get_connection(db_path)
+    with conn:
+        cursor = conn.execute(
+            "DELETE FROM categories WHERE id = ? AND is_default = 0",
+            (category_id,),
+        )
+    return cursor.rowcount > 0
+
+
+def rename_category(category_id: int, new_name: str, db_path: str = DEFAULT_DB_PATH) -> bool:
+    """重命名分类。"""
+    conn = get_connection(db_path)
+    try:
+        with conn:
+            cursor = conn.execute(
+                "UPDATE categories SET name = ? WHERE id = ?",
+                (new_name, category_id),
+            )
+        return cursor.rowcount > 0
+    except sqlite3.IntegrityError:
+        return False
