@@ -131,7 +131,7 @@ npx skills experimental_install
 #### 4.1 commands 和 skills 的区别
 
 `commands`：内容简单，纯 MD 文件，固定流程的快捷指令，手动调用
-`skills`：内容复杂，可包含多个文件夹和文件，可复用的方法论，模型自动调用
+`skills`：内容复杂，可包含多个文件夹和文件，可复用的方法论，模型自动调用（当任务符合某个 skill 的适用场景时）
 
 最大的区别就是：`commands 只能自己手动调用，而 skills 是可以自动被调用的`
 
@@ -240,7 +240,6 @@ claude mcp --help
 ### 6. hooks
 
 可以让 claude-code 在执行某一特定的操作前后，做一些指定的事情
-
 
 例如：每次修改代码后，格式化代码
 
