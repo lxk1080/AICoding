@@ -42,3 +42,4 @@ audio_file.wav
 .agents/
 .claude/skills/
 .mcp.json
+.playwright-mcp/
