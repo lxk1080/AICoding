@@ -18,11 +18,12 @@ kimi-account-book/
 ├── docs/
 │   ├── gaiyao.md          # 概要设计文档
 │   └── xiangxi.md         # 详细设计文档
-├── app.py                 # Streamlit 应用入口，负责页面组合
-├── components.py          # Streamlit UI 组件（表单、统计、图表、列表）
-├── database.py            # sqlite3 数据库初始化与 CRUD 操作
-├── models.py              # 数据模型、枚举与常量定义
-├── utils.py               # 日期、月份、格式化等工具函数
+├── src/
+│   ├── app.py             # Streamlit 应用入口，负责页面组合
+│   ├── components.py      # Streamlit UI 组件（表单、统计、图表、列表）
+│   ├── database.py        # sqlite3 数据库初始化与 CRUD 操作
+│   ├── models.py          # 数据模型、枚举与常量定义
+│   └── utils.py           # 日期、月份、格式化等工具函数
 ├── requirements.txt       # Python 依赖
 └── data/
     └── accounting.db      # SQLite 数据库文件（运行时自动生成）
@@ -67,7 +68,7 @@ pip install -r requirements.txt
 ### 4. 启动应用
 
 ```bash
-streamlit run app.py
+streamlit run src/app.py
 ```
 
 应用启动后会自动打开浏览器，访问 `http://localhost:8501`。
