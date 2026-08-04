@@ -264,3 +264,38 @@ claude mcp --help
   }]
 }]
 ```
+
+### 7. memory
+
+每当你说类似：请记住。。、从现在开始你。。、我只用。。等等类似的话时，
+AI 有可能会把这条信息存到持久化记忆中，以后的对话都会自动读取
+
+例如：
+
+```
+我：从现在开始，如果我让你提交代码，你就遵循你自己的那一套做法，不需要遵循 git-commit skill 的规范，记住了吗？
+AI：明白。就是直接检查 git 状态、展示变更、生成 commit message、确认后提交，不走 Skill 工具调用流程。我把这个记下来。
+```
+
+这时，AI 会把这个事记下来，存到某个 memory 文件夹内，如图：
+
+<img src="./pictures/06.jpeg" width="500"><br/>
+
+- `MEMORY.md` — 索引文件
+- `skip-git-commit-skill.md` — 记录你的偏好
+
+文件内容如下：
+
+`MEMORY.md`：
+
+<img src="./pictures/07.jpeg" width="500"><br/>
+
+`skip-git-commit-skill.md`：
+
+<img src="./pictures/08.jpeg" width="500"><br/>
+
+这样子一来，以后的对话都能记住你这个偏好
+
+**规则优先级：**
+
+用户显式指令 > memory > `CLAUDE.md` 默认规则（包括 skills 匹配）
