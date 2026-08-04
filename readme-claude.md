@@ -220,9 +220,9 @@ claude mcp add --scope user --transport http fetch https://mcp.api-inference.mod
 claude mcp add --transport http fetch https://mcp.api-inference.modelscope.net/xxxxxxxxxxxxxx/mcp --header "Authorization: Bearer your-token"
 ```
 
-② 在项目根目录创建 `.mcp.json` 文件：
+② 在项目根目录创建 `.mcp.json` 文件（将此文件加入到 .gitignore，不要暴露服务的 url 链接）：
 
-直接把上面的 json 代码复制进去即可（要将此文件加入到 .gitignore，不要暴露服务的 url 链接）
+直接把上面的 json 代码复制进去，将 type 字段由 `streamable_http` 改为 `http` 即可
 
 注：无论哪种方式，记得重启 claude-code，重新加载！
 
