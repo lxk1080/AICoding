@@ -9,7 +9,7 @@ trigger: ["提交代码", "git commit", "生成commit"]
 
 ## 执行步骤
 
-1. 运行 `git diff --staged` 查看暂存区的修改
+1. 运行 `git status` 或 `git diff --staged` 查看修改的文件及内容
 2. 分析修改内容，判断变更类型：
    - feat: 新功能
    - fix: 修复Bug
@@ -38,3 +38,5 @@ style(BookmarkCard): 优化书签卡片的响应式布局
 - 调整了移动端下的卡片宽度
 - 修复了标签溢出问题
 ​```
+
+注：实际提交代码时，commit 信息全部用英文去写
