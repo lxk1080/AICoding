@@ -236,3 +236,32 @@ claude mcp remove fetch
 # 更多。。
 claude mcp --help
 ```
+
+### 6. hooks
+
+可以让 claude-code 在执行某一特定的操作前后，做一些指定的事情
+
+
+例如：每次修改代码后，格式化代码
+
+```json
+"PostToolUse": [{
+  "matcher": "Write",
+  "hooks": [{
+    "type": "command",
+    "command": "npx prettier --write $CLAUDE_FILE_PATH"
+  }]
+}]
+```
+
+例如：禁止修改某些文件（PreToolUse 拦截）
+
+```json
+"PreToolUse": [{
+  "matcher": "Write",
+  "hooks": [{
+    "type": "command",
+    "command": "echo $CLAUDE_FILE_PATH | grep -q 'package-lock.json' && exit 1 || exit 0"
+  }]
+}]
+```

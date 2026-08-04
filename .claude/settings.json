@@ -20,5 +20,18 @@
   "enabledMcpjsonServers": [
     "fetch",
     "playwright"
-  ]
+  ],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/shells/log-edit.sh"
+          }
+        ]
+      }
+    ]
+  }
 }
