@@ -299,3 +299,22 @@ AI：明白。就是直接检查 git 状态、展示变更、生成 commit messa
 **规则优先级：**
 
 用户显式指令 > memory > `CLAUDE.md` 默认规则（包括 skills 匹配）
+
+### 15. 关于模型使用
+
+1. **Deepseek**
+- 优点：支持 webSearch、webFetch
+  - 但是 webFetch 不可用，WebFetch 内部有两步必须要连接 Anthropic 自己的服务：域名安全校验 + 网页抓取代理。这两步必须和 claude.ai 通信，会被墙，实测配置代理也没用
+- 缺点：不支持多模态，只能文字交流
+
+2. **MIMO**
+- 优点：支持多模态，可以看图
+- 缺点：不支持 webSearch、webFeatch，不可以看视频
+
+10. **不支持 webSearch 怎么办？**
+- Bash 调用 curl 或其他命令行工具的方式
+- 安装 MCP Search 服务
+
+11. **不支持 webFetch 怎么办？**
+- Bash 调用 curl 或其他命令行工具的方式
+- 安装 MCP Fetch 服务
