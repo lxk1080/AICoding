@@ -14,7 +14,7 @@
    ]
   },
   "//": "默认使用的模型",
-  "model": "sonnet",
+  "model": "haiku",
   "//": "自动紧凑阈值80%（上下文使用超过此比例时自动压缩）",
   "autoCompactThreshold": 80,
   "enabledMcpjsonServers": [
