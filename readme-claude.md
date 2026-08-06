@@ -11,6 +11,7 @@
 <img src="./pictures/02.jpeg" width="60%"><br/>
 
 配置文件：
+> 顺便说一句：配置模型可以使用 `cc-switch`，配置多个模型时，切换很方便，官网：https://ccswitch.io/zh/
 
 ```json
 // ~/.claude/settings.json
