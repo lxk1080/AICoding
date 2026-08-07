@@ -1,14 +1,16 @@
-## 稍微记录一些重要的命令
+## Claude-Code 使用说明
 
 ### 1. claude-code 安装
 
 安装方法：
 
-<img src="./pictures/01.jpeg" width="60%"><br/>
+<img src="./pictures/01.jpeg" width="50%"><br/>
+
+也可以直接使用 VS Code 插件，扩展名：`Claude Code for VS Code`
 
 关键配置（settings.json）：
 
-<img src="./pictures/02.jpeg" width="60%"><br/>
+<img src="./pictures/02.jpeg" width="50%"><br/>
 
 配置文件：
 > 顺便说一句：配置模型可以使用 `cc-switch`，配置多个模型时，切换很方便，官网：https://ccswitch.io/zh/
