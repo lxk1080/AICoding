@@ -1,3 +1,5 @@
+import { AudioManager } from './audio-manager.js';
+
 const C = {
   width: 800, height: 600, maxDelta: 0.05,
   paddle: { width: 120, height: 16, speed: 520, bottom: 24 },
@@ -35,8 +37,14 @@ const canvas = document.querySelector('#game-canvas');
 const ctx = canvas.getContext('2d');
 const ui = {
   level: document.querySelector('#level-value'), score: document.querySelector('#score-value'), lives: document.querySelector('#lives-value'),
-  overlay: document.querySelector('#overlay'), kicker: document.querySelector('#overlay-kicker'), title: document.querySelector('#overlay-title'), text: document.querySelector('#overlay-text'), button: document.querySelector('#overlay-button'), hint: document.querySelector('#hint'),
+  overlay: document.querySelector('#overlay'), kicker: document.querySelector('#overlay-kicker'), title: document.querySelector('#overlay-title'), text: document.querySelector('#overlay-text'), button: document.querySelector('#overlay-button'), hint: document.querySelector('#hint'), audioToggle: document.querySelector('#audio-toggle'),
 };
+
+const audio = new AudioManager((muted) => {
+  ui.audioToggle.textContent = muted ? '已静音' : '音乐开';
+  ui.audioToggle.setAttribute('aria-pressed', String(muted));
+  ui.audioToggle.setAttribute('aria-label', muted ? '取消静音' : '静音');
+});
 
 const game = {
   status: STATUS.START, resumeStatus: STATUS.PLAYING, levelIndex: 0, score: 0, lives: C.lives,
@@ -68,17 +76,18 @@ function prepareBall() {
   updateUI();
 }
 function loadLevel(index) { game.levelIndex = index; game.paddle = createPaddle(); game.bricks = buildBricks(index); game.particles = []; prepareBall(); }
-function startGame() { game.score = 0; game.lives = C.lives; loadLevel(0); hideOverlay(); }
+function startGame() { audio.ensureStarted(); game.score = 0; game.lives = C.lives; loadLevel(0); hideOverlay(); }
 function launch() {
   if (game.status !== STATUS.READY) return;
+  audio.ensureStarted();
   const ball = game.balls[0]; const speed = C.ball.speed * LEVELS[game.levelIndex].speed;
   ball.vx = speed * .35; ball.vy = -Math.sqrt(speed ** 2 - ball.vx ** 2); ball.launched = true;
   game.status = STATUS.PLAYING; hideOverlay(); updateUI();
 }
 function togglePause() {
   if (game.status !== STATUS.READY && game.status !== STATUS.PLAYING && game.status !== STATUS.PAUSED) return;
-  if (game.status === STATUS.PAUSED) { game.status = game.resumeStatus; hideOverlay(); }
-  else { game.resumeStatus = game.status; game.status = STATUS.PAUSED; showOverlay('游戏暂停', '按 Space 或 Escape 继续游戏。', '继续', 'PAUSED'); }
+  if (game.status === STATUS.PAUSED) { game.status = game.resumeStatus; hideOverlay(); audio.resumeMusic(); }
+  else { game.resumeStatus = game.status; game.status = STATUS.PAUSED; audio.pauseMusic(); showOverlay('游戏暂停', '按 Space 或 Escape 继续游戏。', '继续', 'PAUSED'); }
   updateUI();
 }
 function showOverlay(title, text, buttonText, mode, kicker = '霓虹打砖块') { ui.overlay.hidden = false; ui.title.textContent = title; ui.text.textContent = text; ui.button.textContent = buttonText; ui.overlay.dataset.mode = mode; ui.kicker.textContent = kicker; }
@@ -128,7 +137,7 @@ function bounceOffPaddle(ball) {
   const offset = clamp((ball.x - (game.paddle.x + game.paddle.width / 2)) / (game.paddle.width / 2), -1, 1);
   const angle = offset * Math.PI / 3; const speed = clamp(ballSpeed(ball) * 1.012, C.ball.speed, C.ball.maxSpeed);
   ball.vx = speed * Math.sin(angle); ball.vy = -Math.max(speed * Math.cos(angle), speed * C.ball.minVerticalRatio);
-  normalizeBall(ball, speed); burst(ball.x, ball.y, '#a3f7ff', 7); return true;
+  normalizeBall(ball, speed); burst(ball.x, ball.y, '#a3f7ff', 7); audio.playSfx('paddle'); return true;
 }
 function normalizeBall(ball, speed = ballSpeed(ball)) {
   const current = ballSpeed(ball) || speed; ball.vx = ball.vx / current * speed; ball.vy = ball.vy / current * speed;
@@ -136,8 +145,9 @@ function normalizeBall(ball, speed = ballSpeed(ball)) {
   if (Math.abs(ball.vy) < minY) { ball.vy = Math.sign(ball.vy || -1) * minY; ball.vx = Math.sign(ball.vx || 1) * Math.sqrt(Math.max(0, speed ** 2 - ball.vy ** 2)); }
 }
 function damageBrick(brick, ball) {
-  brick.hit = .14; if (!brick.breakable) { burst(ball.x, ball.y, '#b6c0d9', 4); return; }
+  brick.hit = .14; if (!brick.breakable) { burst(ball.x, ball.y, '#b6c0d9', 4); audio.playSfx('metal'); return; }
   brick.hp -= 1; game.score += brick.score; burst(ball.x, ball.y, TYPES[brick.type].color, 8);
+  audio.playSfx(brick.type === 2 ? 'strong' : 'brick');
   if (brick.hp <= 0) { brick.destroyed = true; if (brick.type === 4 && Math.random() < C.dropChance) spawnPowerUp(brick); }
 }
 function updateBall(ball, dt) {
@@ -145,9 +155,9 @@ function updateBall(ball, dt) {
   for (let i = 0; i < steps; i += 1) {
     ball.trail.push({ x: ball.x, y: ball.y, life: .18 }); if (ball.trail.length > 7) ball.trail.shift();
     ball.x += ball.vx * step; ball.y += ball.vy * step;
-    if (ball.x - ball.radius < 0) { ball.x = ball.radius; ball.vx = Math.abs(ball.vx); }
-    if (ball.x + ball.radius > C.width) { ball.x = C.width - ball.radius; ball.vx = -Math.abs(ball.vx); }
-    if (ball.y - ball.radius < 0) { ball.y = ball.radius; ball.vy = Math.abs(ball.vy); }
+    if (ball.x - ball.radius < 0) { ball.x = ball.radius; ball.vx = Math.abs(ball.vx); audio.playSfx('wall'); }
+    if (ball.x + ball.radius > C.width) { ball.x = C.width - ball.radius; ball.vx = -Math.abs(ball.vx); audio.playSfx('wall'); }
+    if (ball.y - ball.radius < 0) { ball.y = ball.radius; ball.vy = Math.abs(ball.vy); audio.playSfx('wall'); }
     bounceOffPaddle(ball);
     const hitIds = new Set();
     for (const brick of game.bricks) {
@@ -180,12 +190,12 @@ function applyPowerUp(power, now) {
   if (power.type === 'extend') { const center = game.paddle.x + game.paddle.width / 2; game.paddle.width = game.paddle.baseWidth * 1.5; game.paddle.x = clamp(center - game.paddle.width / 2, 0, C.width - game.paddle.width); game.effects.set('extend', { expiresAt: now + C.power.extend * 1000 }); }
   if (power.type === 'slow') { if (!game.effects.has('slow')) for (const ball of game.balls) { ball.vx *= .75; ball.vy *= .75; } game.effects.set('slow', { expiresAt: now + C.power.slow * 1000 }); }
   if (power.type === 'pierce') game.effects.set('pierce', { expiresAt: now + C.power.pierce * 1000 });
-  burst(power.x + power.width / 2, power.y, POWER_COLORS[power.type], 13); game.flash = .25; updateUI();
+  burst(power.x + power.width / 2, power.y, POWER_COLORS[power.type], 13); game.flash = .25; audio.playSfx('power'); updateUI();
 }
 function updatePowerUps(dt, now) { game.powerUps = game.powerUps.filter((power) => { power.y += power.fallSpeed * dt; if (rectsOverlap(power, game.paddle)) { applyPowerUp(power, now); return false; } return power.y <= C.height; }); }
 function burst(x, y, color, count) { for (let i = 0; i < count; i += 1) { const angle = Math.random() * Math.PI * 2, speed = 35 + Math.random() * 100; game.particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: .32 + Math.random() * .18, maxLife: .5, color }); } }
-function loseBall() { game.lives -= 1; resetEffects(); if (game.lives > 0) prepareBall(); else { game.status = STATUS.GAME_OVER; showOverlay('能量耗尽', `本局得分 ${game.score}，再来一局？`, '重新开始', 'GAME_OVER', 'GAME OVER'); } updateUI(); }
-function clearLevel() { game.score += game.lives * 500; game.status = STATUS.LEVEL_CLEAR; const last = game.levelIndex === LEVELS.length - 1; showOverlay(last ? '最后一关已清除' : `关卡 ${game.levelIndex + 1} 完成`, `奖励 ${game.lives * 500} 分 · ${last ? '准备迎接最终结算。' : '点击进入下一关。'}`, last ? '查看结算' : '下一关', 'LEVEL_CLEAR', 'LEVEL CLEAR'); updateUI(); }
+function loseBall() { game.lives -= 1; resetEffects(); audio.playSfx('lost'); if (game.lives > 0) prepareBall(); else { game.status = STATUS.GAME_OVER; audio.stopMusic(); showOverlay('能量耗尽', `本局得分 ${game.score}，再来一局？`, '重新开始', 'GAME_OVER', 'GAME OVER'); } updateUI(); }
+function clearLevel() { game.score += game.lives * 500; game.status = STATUS.LEVEL_CLEAR; const last = game.levelIndex === LEVELS.length - 1; audio.playSfx(last ? 'victory' : 'clear'); if (last) audio.stopMusic(); showOverlay(last ? '最后一关已清除' : `关卡 ${game.levelIndex + 1} 完成`, `奖励 ${game.lives * 500} 分 · ${last ? '准备迎接最终结算。' : '点击进入下一关。'}`, last ? '查看结算' : '下一关', 'LEVEL_CLEAR', 'LEVEL CLEAR'); updateUI(); }
 function update(dt, now) {
   if (game.status !== STATUS.PLAYING) return;
   updatePaddle(dt); updateEffects(now);
@@ -221,12 +231,14 @@ function frame(time) { const dt = Math.min((time - game.lastTime) / 1000 || 0, C
 
 function handleOverlayAction() {
   const mode = ui.overlay.dataset.mode;
+  audio.ensureStarted();
   if (mode === 'START' || mode === 'GAME_OVER' || mode === 'VICTORY') startGame();
   else if (mode === 'PAUSED') togglePause();
   else if (mode === 'LEVEL_CLEAR') { if (game.levelIndex === LEVELS.length - 1) { game.status = STATUS.VICTORY; showOverlay('全部关卡完成', `最终得分 ${game.score}。你已掌握霓虹球场！`, '再玩一次', 'VICTORY', 'VICTORY'); } else { loadLevel(game.levelIndex + 1); hideOverlay(); } }
 }
 function keyDown(event) {
   const key = event.code; if (['ArrowLeft', 'ArrowRight', 'Space', 'Enter'].includes(key)) event.preventDefault();
+  audio.ensureStarted();
   if (event.repeat && ['Enter', 'Space', 'Escape'].includes(key)) return;
   if (key === 'ArrowLeft' || key === 'KeyA') game.keys.left = true;
   if (key === 'ArrowRight' || key === 'KeyD') game.keys.right = true;
@@ -235,7 +247,10 @@ function keyDown(event) {
 }
 function keyUp(event) { if (event.code === 'ArrowLeft' || event.code === 'KeyA') game.keys.left = false; if (event.code === 'ArrowRight' || event.code === 'KeyD') game.keys.right = false; }
 window.addEventListener('keydown', keyDown); window.addEventListener('keyup', keyUp); window.addEventListener('blur', () => { game.keys.left = false; game.keys.right = false; if (game.status === STATUS.PLAYING || game.status === STATUS.READY) togglePause(); });
-ui.button.addEventListener('click', handleOverlayAction);
+ui.button.addEventListener('click', handleOverlayAction); ui.audioToggle.addEventListener('click', async () => {
+  await audio.toggleMuted();
+  if (!audio.muted && [STATUS.PAUSED, STATUS.LEVEL_CLEAR, STATUS.GAME_OVER, STATUS.VICTORY].includes(game.status)) await audio.pauseMusic();
+});
 
 game.paddle = createPaddle(); game.balls = [createBall(C.width / 2, game.paddle.y - C.ball.radius - 1)];
-showOverlay('霓虹打砖块', '左右方向键或 A / D 移动挡板，Enter 发球 \n击碎所有砖块，完成三道挑战', '开始游戏', 'START', 'READY PLAYER ONE'); updateUI(); requestAnimationFrame(frame);
+showOverlay('霓虹打砖块', '左右方向键或 A / D 移动挡板，Enter 发球 \n击碎所有砖块，完成三道挑战', '开始游戏', 'START', 'READY PLAYER ONE'); updateUI(); audio.initialize(); requestAnimationFrame(frame);

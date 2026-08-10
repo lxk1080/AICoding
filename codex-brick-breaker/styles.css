@@ -41,6 +41,9 @@ canvas { display: block; width: 100%; height: 100%; touch-action: none; }
 .primary-button { cursor: pointer; border: 0; color: #0a0c1d; background: linear-gradient(135deg, #75f8ff, #aa9aff); font-weight: 800; transition: transform .16s ease, filter .16s ease; }
 .primary-button { width: 100%; margin-top: 23px; padding: 12px 16px; border-radius: 10px; }
 .primary-button:hover { filter: brightness(1.12); transform: translateY(-1px); }
-.hint { padding: 13px 20px; color: #8995b8; text-align: center; font-size: .78rem; }
+.game-footer { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 9px 16px; }
+.hint { color: #8995b8; text-align: center; font-size: .78rem; }
+.audio-toggle { cursor: pointer; padding: 5px 9px; border: 1px solid rgba(155, 178, 255, .3); border-radius: 7px; color: #aab8dc; background: rgba(92, 113, 177, .13); font-size: .72rem; font-weight: 700; }
+.audio-toggle:hover { border-color: #83e9ff; color: #e5fbff; }
 footer { padding-top: 14px; color: #657094; text-align: center; font-size: .78rem; }
 @media (max-width: 520px) { .app-shell { padding: 18px 12px; } .hud { padding-inline: 14px; } .stat { min-width: auto; font-size: .61rem; } .stat strong { font-size: .8rem; } .overlay-panel { padding: 23px 19px; } }
