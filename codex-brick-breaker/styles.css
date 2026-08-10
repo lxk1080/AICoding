@@ -1,0 +1,46 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, "Segoe UI", "Microsoft YaHei", sans-serif;
+  background: #090b1b;
+  color: #f5f7ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(110, 80, 255, .26), transparent 34rem),
+    radial-gradient(circle at 86% 88%, rgba(0, 222, 255, .16), transparent 30rem),
+    #090b1b;
+}
+
+button { font: inherit; }
+.app-shell { width: min(100%, 960px); padding: 28px 22px 22px; }
+.hud { display: flex; align-items: center; justify-content: space-between; }
+h2, p { margin: 0; }
+.eyebrow { color: #8e9bbc; font-size: .71rem; font-weight: 700; letter-spacing: .15em; }
+.game-card { overflow: hidden; border: 1px solid rgba(177, 197, 255, .19); border-radius: 22px; background: rgba(14, 17, 39, .86); box-shadow: 0 20px 70px rgba(0, 0, 0, .34); }
+.hud { padding: 15px 22px; border-bottom: 1px solid rgba(177, 197, 255, .13); }
+.stat { min-width: 104px; color: #97a2c2; font-size: .72rem; font-weight: 700; letter-spacing: .08em; }
+.stat strong { display: block; margin-top: 4px; color: #f6f8ff; font-size: 1rem; letter-spacing: .05em; }
+.stat.score { text-align: center; }
+.stat:last-child { text-align: right; }
+#lives-value { color: #ff758f; letter-spacing: .16em; }
+.canvas-wrap { position: relative; aspect-ratio: 4 / 3; background: #10152d; }
+canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(5, 8, 25, .49); backdrop-filter: blur(4px); }
+.overlay[hidden] { display: none; }
+.overlay-panel { width: min(100%, 390px); padding: 30px; border: 1px solid rgba(255,255,255,.18); border-radius: 18px; text-align: center; background: rgba(18, 24, 52, .92); box-shadow: 0 18px 55px rgba(0,0,0,.35); }
+.overlay-panel h2 { margin: 9px 0; font-size: 1.7rem; letter-spacing: -.04em; }
+.overlay-panel > p:not(.eyebrow) { color: #c0c9e2; line-height: 1.6; white-space: pre-line; }
+.primary-button { cursor: pointer; border: 0; color: #0a0c1d; background: linear-gradient(135deg, #75f8ff, #aa9aff); font-weight: 800; transition: transform .16s ease, filter .16s ease; }
+.primary-button { width: 100%; margin-top: 23px; padding: 12px 16px; border-radius: 10px; }
+.primary-button:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.hint { padding: 13px 20px; color: #8995b8; text-align: center; font-size: .78rem; }
+footer { padding-top: 14px; color: #657094; text-align: center; font-size: .78rem; }
+@media (max-width: 520px) { .app-shell { padding: 18px 12px; } .hud { padding-inline: 14px; } .stat { min-width: auto; font-size: .61rem; } .stat strong { font-size: .8rem; } .overlay-panel { padding: 23px 19px; } }

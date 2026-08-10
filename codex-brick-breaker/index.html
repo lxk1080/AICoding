@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>霓虹打砖块</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game-card" aria-label="打砖块游戏">
+        <div class="hud" aria-live="polite">
+          <div class="stat"><span>关卡</span><strong id="level-value">01</strong></div>
+          <div class="stat score"><span>得分</span><strong id="score-value">000000</strong></div>
+          <div class="stat"><span>生命</span><strong id="lives-value">● ● ●</strong></div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="game-canvas" width="800" height="600" aria-label="游戏画面"></canvas>
+          <section id="overlay" class="overlay" aria-live="assertive">
+            <div class="overlay-panel">
+              <p id="overlay-kicker" class="eyebrow">READY PLAYER ONE</p>
+              <h2 id="overlay-title">霓虹打砖块</h2>
+              <p id="overlay-text">左右方向键或 A / D 移动挡板，Enter 发球。</p>
+              <button id="overlay-button" class="primary-button" type="button">开始游戏</button>
+            </div>
+          </section>
+        </div>
+        <p id="hint" class="hint">左右方向键 / A D 移动 · Enter 发球 · Space / Esc 暂停</p>
+      </section>
+
+      <footer>击碎所有彩砖，别让能量球坠落。</footer>
+    </main>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

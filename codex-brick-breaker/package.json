@@ -1,0 +1,12 @@
+{
+  "name": "codex-brick-breaker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "原生 Canvas 打砖块游戏的 Express 本地服务",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
