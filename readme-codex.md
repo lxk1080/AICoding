@@ -109,12 +109,14 @@ Codex 的配置文件是 `config.toml`，建议直接使用 CC-Switch 工具：
 
 ### 3. Codex 使用
 
-Codex 可以通过多种方式使用：Codex CLI、VSCode、ChatGPT-桌面应用、Codex web，额外还有个 ChatGPT 网页版（这个不包含 Codex 功能）
-主要分为 3 种会话模式：聊天、工作、Codex，三种大致是：
+Codex 可以通过多种方式使用：Codex CLI、VSCode、ChatGPT-桌面应用、Codex web，额外还有个 ChatGPT 网页版（这个不包含 Codex 功能），
+目前 ChatGPT 体系主要分为 3 种会话模式：聊天、工作、Codex，三种大致是：
 
 - 聊天：重在讨论，不注重交付结果，哲学、询问、打发时间、日常聊天就选这个
 - 工作：重在交付，输出工作成果，可以写代码，但写代码不是专项，建议用于处理一些除代码之外的办公事项，例如：生图、写PPT、日常重复性工作
-- Codex：软件开发工程师，专门写代码的，包含很多实用的指令、技能，转为写代码而生
+    - 和 openClaw 的区别就是，ChatGPT 是你找他，他帮你完成任务，openClaw 是你交代一句，然后他长期自主执行任务，不需要每次找他
+    - 其实，Codex 也是被包含在工作模式内的
+- Codex：软/硬件开发工程师，专门写代码的，包含很多实用的指令、技能，专为写代码而生
 
 Codex 的 5.6 模型有三个版本：Luna、Terra、Sol，可以简单理解为：
 
