@@ -1,0 +1,6 @@
+claude
+codex
+cursor
+trae
+work/codebuddy
+openClaw
