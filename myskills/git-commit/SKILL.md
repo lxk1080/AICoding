@@ -9,7 +9,7 @@ trigger: ["提交代码", "git commit", "生成commit"]
 
 ## 执行步骤
 
-1. 运行 `git status` 或 `git diff --staged` 查看修改的文件及内容
+1. 运行 `git status` 和 `git diff --staged` 查看修改的文件及内容
 2. 分析修改内容，判断变更类型：
    - feat: 新功能
    - fix: 修复Bug
