@@ -38,7 +38,7 @@ openclaw onboard --install-daemon
 遇到提示：`Model/auth provider` 选择一个模型，没显示的话选择 More..
 遇到提示：`Enter API key` 填入你的 API Key
 遇到提示：`Default model` 可以让其显示所有模型，然后选择一个
-后续的其余配置（消息频道、Skill 等）可根据需求配置，新手可以先选择 Skip for now
+后续的其余配置（消息频道、Skill 等）可根据需求配置，新手可以先选择 Skip for now，后面可通过 `openclaw configure` 去修改配置
 
 > 对于配置模型，有不清楚的地方，可以到各模型官网查看 openClaw 接入文档
 
@@ -53,6 +53,9 @@ openclaw tui
 
 # 一次性发送问题：
 openclaw agent --message "帮我整理今天的待办"
+
+# 打开交互页面，需要先打开网关，如果网关没开，先启动网关（电脑重启后）
+openclaw gateway start
 ```
 
 #### 1.4 常用命令
@@ -111,7 +114,7 @@ openclaw gateway restart
 # --all：选择全部四个作用范围
 openclaw uninstall --dry-run --all
 
-# 真卸载，执行下面两句即可
+# 真卸载，执行下面两句即可（卸载软件包和安装包）
 openclaw uninstall --all --yes
 npm uninstall -g openclaw
 
@@ -119,3 +122,30 @@ npm uninstall -g openclaw
 openclaw gateway stop
 openclaw gateway uninstall
 ```
+
+### 2. 各种配置
+
+#### 2.1 接入 channels（频道）
+
+**接入飞书：**
+参考视频链接（尚硅谷的课程）：https://www.bilibili.com/video/BV11VA7zEE7y/?p=4
+
+#### 2.2 安装 skilss
+
+这里提供两个 skills 网站：
+
+ClawHub（是OpenClaw官方的插件和Skills公共库）：https://clawhub.ai/
+SkillHub（腾讯推出面向国内用户的，本土友好）：https://skillhub.cn/
+
+安装如下：
+
+```sh
+# 安装一个审查 skill 安全性的 skill（因为有些恶意的 skill 不安全）
+# 注：这种方式只能安装 ClawHub 的 skill
+openclaw skills install @spclaudehome/skill-vetter
+```
+
+执行命令后，会安装到你的 `~/.openclaw/workspace/skills` 文件夹
+
+对于 SkillHub 的 skill 安装，可以下载 zip 包，然后解压到上述目录即可，
+或者直接用提示词让 AI 自己安装
