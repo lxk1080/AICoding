@@ -32,6 +32,8 @@ Windows 系统环境变量：
 
 <img src="./pictures/04.jpeg" />
 
+追求方便则直接输入：`dir %USERPROFILE%` 即可展示用户目录内的所有文件和文件夹（记得要用 CMD，powershell 不行，上面的命令也是一样）
+
 注意：后面如果要删除生成的文件夹 `C:\Users\用户名\.vscode`，最好不要直接用右键删除，要使用命令行 `rmdir "C:\Users\用户名\.vscode"` 操作，
 因为少数 Windows 版本资源管理器处理 Junction 存在 bug，有可能递归删除 D 盘里面对应的所有文件！
 
