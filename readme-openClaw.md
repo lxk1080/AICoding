@@ -125,8 +125,10 @@ openclaw gateway uninstall
 
 #### 1.6 迁移 `.openclaw` 文件夹
 
-在 Window 中配置环境变量 `OPENCLAW_STATE_DIR` 指定目录即可，例如：`D:\Configs\.openclaw`，
-当然，这个 `.openclaw` 目录，需要自己事先剪切粘贴过去
+在 Window 中配置环境变量 `OPENCLAW_STATE_DIR` 指定目录即可，
+例如：`D:\ManyConfigs\.openclaw`，当然，这个 `.openclaw` 目录，需要自己事先剪切粘贴过去，
+另外，最好在 openClaw 初始化之前就迁移，否则的话，剪切粘贴会有很多小文件，粘贴过去的速度将会特别缓慢，
+注意：如果使用了 CC-Switch 配置模型，在 CC-Switch 里面的配置目录也要同步修改
 
 ### 2. 各种配置
 
