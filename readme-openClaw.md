@@ -29,19 +29,18 @@ openClaw --version
 #### 1.2 运行初始化向导 + 安装后台服务
 
 ```sh
-# 完整配置向导 + 安装系统服务（用这个就行了！）
+# 完整配置向导 + 安装系统服务
 openclaw onboard --install-daemon
-
-# 仅运行配置向导（不会额外安装或注册 Gateway 的 Windows 后台启动任务）
-openclaw onboard
 ```
 
 遇到提示：`I understand this is personal-by-default and shared/multi-user use requires lock-down. Continue?` 选择 Yes
 遇到提示：`Setup mode` 推荐选择 QuickStart
 遇到提示：`Model/auth provider` 选择一个模型，没显示的话选择 More..
-遇到提示：`Enter DeepSeek API key` 填入你的 API Key
-遇到提示：`Default model` 将光标指向 Enter model，填写模型名称
+遇到提示：`Enter API key` 填入你的 API Key
+遇到提示：`Default model` 可以让其显示所有模型，然后选择一个
 后续的其余配置（消息频道、Skill 等）可根据需求配置，新手可以先选择 Skip for now
+
+> 对于配置模型，有不清楚的地方，可以到各模型官网查看 openClaw 接入文档
 
 #### 1.3 开始使用
 
