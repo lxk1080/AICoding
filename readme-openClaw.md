@@ -164,6 +164,9 @@ openclaw skills install @spclaudehome/skill-vetter --agent <agentName>
 另外，也可以使用 vercel 的 skill 安装工具 `npx skills add ...` 去安装 skill，
 这个工具基本上兼容了市面上所有 AI 工具 skill 的安装方式，非常方便，推荐使用！
 
+学会寻找、安装、并使用 skill，对于各种 AI 工具来说，都是一件非常重要的事，它可以帮你自动化很多流程，节省很多时间，
+不仅仅是写代码和日常办公，在其它领域例如自媒体运营、游戏、金融，都是非常有价值的，这个一定要掌握！
+
 #### 2.3 多 Agent 配置
 
 默认情况下，只有一个工作区，主会话：main（default），
