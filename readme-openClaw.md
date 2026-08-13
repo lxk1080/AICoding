@@ -123,6 +123,11 @@ openclaw gateway stop
 openclaw gateway uninstall
 ```
 
+#### 1.6 迁移 `.openclaw` 文件夹
+
+在 Window 中配置环境变量 `OPENCLAW_STATE_DIR` 指定目录即可，例如：`D:\Configs\.openclaw`，
+当然，这个 `.openclaw` 目录，需要自己事先剪切粘贴过去
+
 ### 2. 各种配置
 
 #### 2.1 接入 channels（频道）
