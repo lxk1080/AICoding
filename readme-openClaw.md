@@ -128,7 +128,15 @@ openclaw gateway uninstall
 #### 2.1 接入 channels（频道）
 
 **接入飞书：**
+
 参考视频链接（尚硅谷的课程）：https://www.bilibili.com/video/BV11VA7zEE7y/?p=4
+
+**接入Telegram：**
+
+比接入飞书简单，只需要在 `BotFather` 新建机器人（`/newbot`），按流程往下走，
+当 bot 建好之后，在 openClaw 写入 bot 的 HTTP API `ID:Token`（接 Telegram 时会让你填写），
+最后，对话，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
+就接好了，实在不会可以参考这个视频：https://www.bilibili.com/video/BV1TpAZzeEiZ/
 
 #### 2.2 安装 skilss
 
@@ -143,9 +151,32 @@ SkillHub（腾讯推出面向国内用户的，本土友好）：https://skillhu
 # 安装一个审查 skill 安全性的 skill（因为有些恶意的 skill 不安全）
 # 注：这种方式只能安装 ClawHub 的 skill
 openclaw skills install @spclaudehome/skill-vetter
+
+# 默认是安装到主 agent，可以指定 agent 安装
+openclaw skills install @spclaudehome/skill-vetter --agent <agentName>
 ```
 
 执行命令后，会安装到你的 `~/.openclaw/workspace/skills` 文件夹
 
 对于 SkillHub 的 skill 安装，可以下载 zip 包，然后解压到上述目录即可，
 或者直接用提示词让 AI 自己安装
+
+另外，也可以使用 vercel 的 skill 安装工具 `npx skills add ...` 去安装 skill，
+这个工具基本上兼容了市面上所有 AI 工具 skill 的安装方式，非常方便，推荐使用！
+
+#### 2.3 多 Agent 配置
+
+默认情况下，只有一个工作区，主会话：main（default），
+我们可以执行以下命令新建一个 Agent：
+
+```sh
+# 新建一个 agent，可指定一个新的工作空间
+openclaw agents add <agentName>
+
+# 查看 agents 列表
+openclaw agents list
+```
+
+创建完成后，你就可以在 openClaw 操作界面的 “代理” 里面，编辑不同 agent 的配置，
+在会话区，可以选择不同的 agent 进行会话，这将是一个全新的 agent，它会说它刚上线，
+我们可以对它从头开始进行一整套的配置
