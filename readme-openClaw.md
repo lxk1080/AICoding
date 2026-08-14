@@ -56,15 +56,28 @@ openclaw tui
 # 一次性发送问题：
 openclaw agent --message "帮我整理今天的待办"
 
-# 打开交互页面，需要先打开网关，如果网关没开，先启动网关（电脑重启后）
+# 打开交互页面，需要先打开网关，如果网关没开，先启动网关
+# 不过，只要安装了 gateway，就也会附带计划任务/开机自启动服务
+# 所以一般情况下，除非自己手动关闭服务，否则不需要自己手动去启动网关
 openclaw gateway start
 
-# 按照本安装步骤，gateway 默认是开启自启动的，而开机自启动是依赖这个守护进程的（在Window上是一个计划任务/启动服务）
-# 如果不想开机自启动，可以将这个守护进程卸载掉，但是以后每次电脑重启需要手动开启网关：openclaw gateway start
-openclaw daemon uninstall
-
+# 如果不想开机自启动，可以将 gateway 卸载掉
+openclaw gateway uninstall
+# 但是以后每次电脑重启需要手动开启网关，但这种方式是需要终端常驻的，终端一旦关闭，服务立马结束
+openclaw gateway run
 # 如果还是想开机自启动，再安装回来即可
-openclaw daemon install
+openclaw gateway install
+
+# 其实一种最理想的状态是，使用 openclaw gateway start，然后不需要终端常驻，但服务常驻
+# 之后自己执行 openclaw gateway stop 或关机则自动关闭服务，重启后，再次手动启动服务
+# 要想达到这种效果：不能卸载 gateway，需要进入任务计划程序，只关闭 OpenClaw Gateway 的“登录时”触发器（开机启动服务）
+# 按 Win + R，输入：
+taskschd.msc
+# 回车，就会打开：任务计划程序
+# 然后左边：任务计划程序库 → 找 OpenClaw Gateway
+# 找到后，点击这个任务计划，右侧点「属性」 →「触发器」→ 选中这条“登录时” →「编辑」→ 取消勾选「已启用」→ 确定
+# 至此大功告成！
+# 注意：不要点右侧那个「禁用」，那个会把整个 OpenClaw Gateway 任务禁用
 ```
 
 #### 1.4 常用命令
@@ -82,11 +95,12 @@ openclaw models set deepseek/deepseek-v4-flash
 # 修改配置：模型、插件、skill、添加/移除渠道（钉钉、飞书、Telegram 。。）等等
 openclaw configure
 
-# Gateway 后台服务：查看状态、启动、停止、重启、启用自动启动
+# Gateway 后台服务：查看状态、启动、停止、重启、卸载自启动服务、安装自启动服务
 openclaw gateway status
 openclaw gateway start
 openclaw gateway stop
 openclaw gateway restart
+openclaw gateway uninstall
 openclaw gateway install
 
 # 查看渠道状态
