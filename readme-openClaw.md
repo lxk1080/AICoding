@@ -152,16 +152,30 @@ openclaw gateway start
 
 #### 2.1 接入 channels（频道）
 
+```sh
+# 进入配置，选择 channels，然后按流程走，不同的 channel 需要的东西不一样
+openclaw configure
+```
+
 **接入飞书：**
 
+打开 https://open.feishu.cn/ ，点击 “开发者后台”，点击 “创建企业自建应用”，
+名称和描述自定义就行，进入应用主页面，点击 “添加应用能力”，点击 “添加” 机器人，
+点击 “权限管理” => “开通权限” => “消息与群组” => 勾选所有 => “确认开通权限”，
+点击 “事件与回调” => “订阅方式” => “长连接，保存” => “添加事件” => 搜索“接收消息” => 勾选并添加，
+点击 “版本管理与发布” => 随便写 => “保存”，
+点击 “凭证与基础信息”，里面有 AppID 和 App Secret，
+填入 openclaw 配置飞书流程，按流程走即可配置成功，如果有提问，均选择：No，
+最后，在飞书输入 “你好” 试试，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
+复制它给出的命令行，到终端执行，接入完毕！
 参考视频链接（尚硅谷的课程）：https://www.bilibili.com/video/BV11VA7zEE7y/?p=4
 
 **接入Telegram：**
 
 比接入飞书简单，只需要在 `BotFather` 新建机器人（`/newbot`），按流程往下走，
 当 bot 建好之后，在 openClaw 写入 bot 的 HTTP API `ID:Token`（接 Telegram 时会让你填写），
-最后，对话，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
-就接好了，实在不会可以参考这个视频：https://www.bilibili.com/video/BV1TpAZzeEiZ/
+最后对话，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
+复制执行好了，实在不会可以参考这个视频：https://www.bilibili.com/video/BV1TpAZzeEiZ/
 
 #### 2.2 安装 skills
 
@@ -181,7 +195,7 @@ openclaw skills install @xocio/skill-vetter-zh
 openclaw skills install @xocio/skill-vetter-zh --agent <agentName>
 ```
 
-执行命令后，会安装到你的 `~/.openclaw/workspace/skills` 文件夹
+执行命令后，默认会安装到 `~/.openclaw/workspace/skills` 文件夹
 
 对于 SkillHub 的 skill 安装，可以下载 zip 包，然后解压到上述目录即可，
 或者直接用提示词让 AI 自己安装
