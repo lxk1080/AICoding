@@ -127,16 +127,22 @@ openclaw gateway uninstall
 
 在 Window 中配置环境变量 `OPENCLAW_STATE_DIR` 指定目录即可，
 例如：`D:\ManyConfigs\.openclaw`，当然，这个 `.openclaw` 目录，需要自己事先剪切粘贴过去，
-另外，最好在 openClaw 初始化之前就迁移，否则的话，剪切粘贴会有很多小文件，粘贴过去的速度将会特别缓慢，
-注意：如果使用了 CC-Switch 配置模型，在 CC-Switch 里面的配置目录也要同步修改
+另外，最好在 openClaw 初始化之前就迁移，否则的话，可能会有软链接目录无法剪切过去，
 
-如果迁移之后，`gateway` 无法启动，卸载重新安装即可：
+还有几个注意事项：
+
+① 如果使用了 CC-Switch 配置模型，在 CC-Switch 里面的配置目录也要同步修改
+
+② 如果迁移之后，`gateway` 无法启动，卸载重新安装即可：
 
 ```sh
 openclaw gateway uninstall
 openclaw gateway install
 openclaw gateway start
 ```
+
+③ 要检查 `.openclaw/openclaw.json` 文件内有没有写死的绝对路径（一般是 agent 的工作空间路径），
+如果有，也要改成迁移之后的，注意文件路径单斜杠 `\` 转义问题，要用 `\\`
 
 ### 2. 各种配置
 
@@ -165,10 +171,10 @@ SkillHub（腾讯推出面向国内用户的，本土友好）：https://skillhu
 ```sh
 # 安装一个审查 skill 安全性的 skill（因为有些恶意的 skill 不安全）
 # 注：这种方式只能安装 ClawHub 的 skill
-openclaw skills install @spclaudehome/skill-vetter
+openclaw skills install @xocio/skill-vetter-zh
 
 # 默认是安装到主 agent，可以指定 agent 安装
-openclaw skills install @spclaudehome/skill-vetter --agent <agentName>
+openclaw skills install @xocio/skill-vetter-zh --agent <agentName>
 ```
 
 执行命令后，会安装到你的 `~/.openclaw/workspace/skills` 文件夹
