@@ -28,6 +28,8 @@ openClaw --version
 
 #### 1.2 运行初始化向导 + 安装后台服务
 
+初始化之前，可以考虑先迁移 `.openclaw` 文件夹：[点击这里](#16-迁移-openclaw-文件夹)
+
 ```sh
 # 完整配置向导 + 安装系统服务
 openclaw onboard --install-daemon
@@ -125,11 +127,10 @@ openclaw gateway uninstall
 
 #### 1.6 迁移 `.openclaw` 文件夹
 
-在 Window 中配置环境变量 `OPENCLAW_STATE_DIR` 指定目录即可，
-例如：`D:\ManyConfigs\.openclaw`，当然，这个 `.openclaw` 目录，需要自己事先剪切粘贴过去，
-另外，最好在 openClaw 初始化之前就迁移，否则的话，可能会有软链接目录无法剪切过去，
-
-还有几个注意事项：
+默认配置目录在：`~/.openclaw`（Mac、Linux）或 `C:\Users\[用户名]\.openclaw`（Window），
+在 Window 中配置环境变量 `OPENCLAW_STATE_DIR` 指定目录即可，例如：`D:\ManyConfigs\.openclaw`，
+当然，这个 `.openclaw` 目录，需要自己事先剪切粘贴过去，另外，最好在 openClaw 初始化之前就迁移，
+否则的话，可能会有软链接目录无法剪切过去，还有几个注意事项：
 
 ① 如果使用了 CC-Switch 配置模型，在 CC-Switch 里面的配置目录也要同步修改
 
@@ -159,7 +160,7 @@ openclaw gateway start
 最后，对话，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
 就接好了，实在不会可以参考这个视频：https://www.bilibili.com/video/BV1TpAZzeEiZ/
 
-#### 2.2 安装 skilss
+#### 2.2 安装 skills
 
 这里提供两个 skills 网站：
 
