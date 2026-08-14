@@ -58,6 +58,13 @@ openclaw agent --message "帮我整理今天的待办"
 
 # 打开交互页面，需要先打开网关，如果网关没开，先启动网关（电脑重启后）
 openclaw gateway start
+
+# 按照本安装步骤，gateway 默认是开启自启动的，而开机自启动是依赖这个守护进程的（在Window上是一个计划任务/启动服务）
+# 如果不想开机自启动，可以将这个守护进程卸载掉，但是以后每次电脑重启需要手动开启网关：openclaw gateway start
+openclaw daemon uninstall
+
+# 如果还是想开机自启动，再安装回来即可
+openclaw daemon install
 ```
 
 #### 1.4 常用命令
