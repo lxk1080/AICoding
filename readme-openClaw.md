@@ -145,6 +145,9 @@ openclaw gateway start
 ③ 要检查 `.openclaw/openclaw.json` 文件内有没有写死的绝对路径（一般是 agent 的工作空间路径），
 如果有，也要改成迁移之后的，注意文件路径单斜杠 `\` 转义问题，要用 `\\`
 
+④ 即使在初始化之前就已迁移，openclaw 仍可能将 npm、workspace 等文件夹安装到用户目录的 `.openclaw` 下，
+这个属于 bug，此时需要自己将这些文件剪切过去，然后改正 `openclaw.json` 文件里的 workspace 路径
+
 ### 2. 各种配置
 
 #### 2.1 接入 channels（频道）
