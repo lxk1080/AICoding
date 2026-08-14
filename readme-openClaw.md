@@ -165,7 +165,7 @@ openclaw configure
 点击 “事件与回调” => “订阅方式” => “长连接，保存” => “添加事件” => 搜索“接收消息” => 勾选并添加，
 点击 “版本管理与发布” => 随便写 => “保存”，
 点击 “凭证与基础信息”，里面有 AppID 和 App Secret，
-填入 openclaw 配置飞书流程，按流程走即可配置成功，如果有提问，均选择：No，
+填入 openclaw 配置流程，接着出现一个选项，选择 Open（开放，中间那一个），按流程走即可配置成功，如果有提问，均选择：No，
 最后，在飞书输入 “你好” 试试，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
 复制它给出的命令行，到终端执行，接入完毕！
 参考视频链接（尚硅谷的课程）：https://www.bilibili.com/video/BV11VA7zEE7y/?p=4
