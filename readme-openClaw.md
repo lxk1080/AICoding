@@ -130,6 +130,14 @@ openclaw gateway uninstall
 另外，最好在 openClaw 初始化之前就迁移，否则的话，剪切粘贴会有很多小文件，粘贴过去的速度将会特别缓慢，
 注意：如果使用了 CC-Switch 配置模型，在 CC-Switch 里面的配置目录也要同步修改
 
+如果迁移之后，`gateway` 无法启动，卸载重新安装即可：
+
+```sh
+openclaw gateway uninstall
+openclaw gateway install
+openclaw gateway start
+```
+
 ### 2. 各种配置
 
 #### 2.1 接入 channels（频道）
