@@ -212,13 +212,104 @@ openclaw skills install @xocio/skill-vetter-zh --agent <agentName>
 我们可以执行以下命令新建一个 Agent：
 
 ```sh
-# 新建一个 agent，可指定一个新的工作空间
+# 新建一个 agent，可指定一个新的工作空间，建议：workspace-<agentName>
 openclaw agents add <agentName>
 
 # 查看 agents 列表
 openclaw agents list
+
+# 删除一个 agent，删除后 openClaw 就加载不到这个 agent 了，但是对应的文件夹还在。。
+# 两个文件夹需要自己手动删除（当然你不删也没关系）
+# ~/.openclaw/agent/<agentName> 和 ~/.openclaw/workspace-<agentName>
+openclaw agents delete <agentName>
 ```
 
 创建完成后，你就可以在 openClaw 操作界面的 “代理” 里面，编辑不同 agent 的配置，
 在会话区，可以选择不同的 agent 进行会话，这将是一个全新的 agent，它会说它刚上线，
 我们可以对它从头开始进行一整套的配置
+
+#### 2.4 多 Agent 接入飞书不同的机器人
+
+> 这里只是举了飞书这个例子，其它的 channel 也是同理
+
+假如说我们现在有两个 agent，我希望每个 agent 都能对应飞书里面的一个机器人，
+两个 agent 分别是 main、media-job，飞书里面创建两个机器人分别是 openClaw、openClaw-media-job
+
+1、首先，我们需要在飞书里面创建两个应用，分别对应两个机器人，创建过程 [@接入飞书](#21-接入-channels频道)
+
+2、为两个 agent 建立路由绑定（也就是让不同的 agent 绑定不同的飞书机器人），执行以下代码：
+
+这里 feishu:main、feishu:media-job 里面的 main、media-job 都是自定义的名称，不过我建议和 agent 名保持一致（好找）
+
+```sh
+openclaw agents bind --agent main --bind feishu:main
+openclaw agents bind --agent media-job --bind feishu:media-job
+```
+
+执行完，openclaw 将会在 `openclaw.json` 文件内写入以下配置：
+
+```json
+"bindings": [
+  {
+    "type": "route",
+    "agentId": "main",
+    "match": {
+      "channel": "feishu",
+      "accountId": "main"
+    }
+  },
+  {
+    "type": "route",
+    "agentId": "media-job",
+    "match": {
+      "channel": "feishu",
+      "accountId": "media-job"
+    }
+  }
+]
+```
+
+3、将两个机器人的数据添加到 openClaw 配置里（坑的是 openClaw 不支持命令行引导配置，只能手动修改 `openclaw.json` 文件）
+
+复制粘贴以下代码到 `openclaw.json` 文件中，并且替换掉刚才创建的两个飞书应用的 AppID 和 AppSecret
+
+这里配置的两个 account 名称，要对应上面 bindings 配置里的 accountId，这样一来就绑定上了
+
+```json
+"channels": {
+  "feishu": {
+    "enabled": true,
+    "groupPolicy": "open",
+    "requireMention": true,
+    "defaultAccount": "main",
+    "accounts": {
+      "main": {
+        "appId": "飞书应用1的AppID",
+        "appSecret": "飞书应用1的AppSecret",
+        "connectionMode": "websocket",
+        "domain": "feishu"
+      },
+      "media-job": {
+        "appId": "飞书应用2的AppID",
+        "appSecret": "飞书应用2的AppSecret",
+        "connectionMode": "websocket",
+        "domain": "feishu"
+      }
+    }
+  }
+}
+```
+
+4、接下来找飞书里两个机器人对话，在命令行里执行它给你的 `openclaw pairing approve feishu <PairingCode>`，就配置好了
+
+5、后续在机器人会话里，可以看到对应的 agent 是哪个（如果不是 main agent，会话还会直接显示对应的 agent 名称）：
+
+<img src="./pictures/09.jpeg" height="110px">
+<img src="./pictures/10.jpeg" height="110px"><br/><br/>
+
+**命令行查询当前绑定状态：**
+
+```sh
+openclaw agents list
+openclaw agents bindings
+```
