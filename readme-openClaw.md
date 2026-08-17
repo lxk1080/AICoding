@@ -188,14 +188,15 @@ openclaw configure
 点击 “凭证与基础信息”，里面有 AppID 和 App Secret，
 填入 openclaw 配置流程，接下来“群聊策略”，选择 Open（开放），按流程走即可配置成功，如果有提问，均选择：No，
 最后，在飞书输入 “你好” 试试，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
-复制它给出的命令行，到终端执行，接入完毕！
+复制它给出的命令行，到终端执行（授权），接入完毕！
 参考视频链接（尚硅谷的课程）：https://www.bilibili.com/video/BV11VA7zEE7y/?p=4
+高级配置指引：[点击这里](#31-飞书群聊配置)
 
 **接入Telegram：**
 
 比接入飞书简单，只需要在 `BotFather` 新建机器人（`/newbot`），按流程往下走，
 当 bot 建好之后，在 openClaw 写入 bot 的 HTTP API `ID:Token`（接 Telegram 时会让你填写），
-最后对话，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`，
+最后对话，它会让你在命令行执行：`openclaw pairing approve telegram <PairingCode>`（授权），
 复制执行好了，实在不会可以参考这个视频：https://www.bilibili.com/video/BV1TpAZzeEiZ/
 
 #### 2.2 安装 skills
@@ -222,10 +223,10 @@ openclaw skills install @xocio/skill-vetter-zh --agent <agentName>
 或者直接用提示词让 AI 自己安装
 
 另外，也可以使用 vercel 的 skill 安装工具 `npx skills add ...` 去安装 skill，
-这个工具基本上兼容了市面上所有 AI 工具 skill 的安装方式，非常方便，推荐使用！
+这个工具基本上兼容了市面上所有 AI 工具 skill 的安装方式，非常方便，<span style="color: yellow">推荐使用！</span>
 
 学会寻找、安装、并使用 skill，对于各种 AI 工具来说，都是一件非常重要的事，它可以帮你自动化很多流程，节省很多时间，
-不仅仅是写代码和日常办公，在其它领域例如自媒体运营、游戏、金融，都是非常有价值的，这个一定要掌握！
+不仅仅是写代码和日常办公，在其它领域例如自媒体运营、游戏、金融等等，都是非常有价值的，这个一定要掌握！
 
 #### 2.3 多 Agent 配置
 
@@ -334,3 +335,59 @@ openclaw agents bind --agent media-job --bind feishu:media-job
 openclaw agents list
 openclaw agents bindings
 ```
+
+### 3. 高级配置
+
+#### 3.1 飞书群聊配置
+
+```json
+// 对飞书 channel 进行配置
+"channels": {
+  "feishu": {
+    "enabled": true,
+    // "groupPolicy": "open", // 群聊策略，开放，所有群都可以添加这个机器人
+    "groupPolicy": "allowlist", // 群聊策略，允许的列表，指定群可以添加这个机器人，如果选择了这个，需要配置列表 groupAllowFrom
+    "groupAllowFrom": [
+      "oc_xxxxxxxxxxxxxxxxxx" // 群聊会话 ID，在飞书群聊设置里面获取
+    ],
+    // "requireMention": true, // 是否需要提及，也就是机器人能否自由说话，如果设置 true（需要被提及），则只能通过 @机器人 让其回复消息
+    "groups": {
+      "oc_xxxxxxxxxxxxxxxxxx": {
+        "requireMention": false, // 对某个群聊进行单独配置
+      }
+    },
+    "defaultAccount": "main",
+    "accounts": {
+      "main": {
+        "appId": "xxxxxx",
+        "appSecret": "xxxxxx",
+        "connectionMode": "websocket",
+        "domain": "feishu"
+        // 注：外层的那些配置（enabled、groupPolicy、requireMention .. ）也可以单独配在这里，配在外层，代表所有的 account 都适用
+      },
+      "media-job": {
+        "appId": "xxxxxx",
+        "appSecret": "xxxxxx",
+        "connectionMode": "websocket",
+        "domain": "feishu"
+      }
+    }
+  }
+}
+
+// 配置完记得重启下网关（最新版好像不需要了。。）
+openclaw gateway restart
+```
+
+### 5. 实用 skills 推荐
+
+#### 5.1 Tavily Search
+
+说是一款‌专为 LLM 和 RAG（检索增强生成）优化的搜索引擎 API‌，提供高质量、结构化且低幻觉的搜索结果
+
+这个已经不用装 skill 了， 现在已经集成到 openclaw 的 web search 预选项了，
+不过还是需要自己去 Tavily 官网注册一下，拿到 API Keys，官网地址：https://app.tavily.com/ ，
+这个免费版本是有一定额度的，不是免费无限用
+
+目前（202608）openclaw 默认有两个搜索是免费无需 Key 的，DuckDuckGo Search 和 Parallel Search，
+想换个搜索引擎的可以试试这个

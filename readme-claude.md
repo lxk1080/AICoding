@@ -98,6 +98,9 @@ npx skills add vercel-labs/agent-skills -g
 # 只单独安装 React 最佳实践（推荐）
 npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices -g
 
+# 通过上述可以看到，我们可以用 @ 或 --skill 去指定某一个单独的 skill，其实我们还可以直接通过 skill 的链接地址去安装，例如：
+npx skills add https://github.com/anthropics/skills/tree/main/skills/skill-creator -g
+
 # 可以用 --list 查看支持的技能列表
 npx skills add vercel-labs/agent-skills --list
 ```
