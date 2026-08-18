@@ -1,0 +1,23 @@
+{
+  "skill_name": "wechat-ai-pipeline",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/wechat-ai-pipeline 人形机器人正在从表演转向应用验证",
+      "expected_output": "Extract the topic after the slash command, generate a sourced Chinese WeChat article, create cover and inline images, insert them into Markdown, and publish a WeChat API draft unless blocked.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "用 wechat-ai-pipeline 写一篇：AI Hangzhou 2026 杭州人工智能大会，只生成不发布",
+      "expected_output": "Generate the article and images under wechat-articles/<slug>/, insert images into article.md, and skip WeChat publishing because the user requested no publish.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "围绕“国内机器人实景实训专项行动”生成公众号文章并发草稿，配图用 Codex 内置图像生成",
+      "expected_output": "Use the pipeline workflow, route image generation through the configured Codex-native/codex-cli path, then publish the final Markdown draft through the WeChat API.",
+      "files": []
+    }
+  ]
+}

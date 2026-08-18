@@ -1,43 +1,10 @@
 {
   "version": 3,
   "skills": {
-    "find-skills": {
-      "source": "vercel-labs/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel-labs/skills.git",
-      "ref": "main",
-      "skillPath": "skills/find-skills/SKILL.md",
-      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
-      "installedAt": "2026-08-13T08:43:21.071Z",
-      "updatedAt": "2026-08-13T08:43:21.071Z"
-    },
-    "skill-vetter-zh": {
-      "source": "clawhub.ai",
-      "sourceType": "well-known",
-      "sourceUrl": "https://wry-manatee-359.convex.site/api/v1/agent-skills/xocio/skill-vetter-zh/archive?version=1.0.0",
-      "skillFolderHash": "",
-      "installedAt": "2026-08-13T10:34:52.618Z",
-      "updatedAt": "2026-08-14T04:20:55.491Z"
-    },
-    "baoyu-post-to-wechat": {
-      "source": "JimLiu/baoyu-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/JimLiu/baoyu-skills.git",
-      "ref": "main",
-      "skillPath": "skills/baoyu-post-to-wechat/SKILL.md",
-      "skillFolderHash": "9bce808b49beba0d9413545ead01b1e827d262d7",
-      "installedAt": "2026-08-13T12:52:39.065Z",
-      "updatedAt": "2026-08-13T12:52:39.065Z"
-    },
-    "skill-creator": {
-      "source": "anthropics/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/anthropics/skills.git",
-      "ref": "main",
-      "skillPath": "skills/skill-creator/SKILL.md",
-      "skillFolderHash": "3cf9a8db32597ba3e24b584a3d696f4e11c7d7b6",
-      "installedAt": "2026-08-17T08:32:04.839Z",
-      "updatedAt": "2026-08-17T08:32:04.839Z"
+    "ai-wechat-article": {
+      "source": "D:\\ZCODE\\zerol-skills\\ai-wechat-article",
+      "sourceType": "local",
+      "computedHash": "3672be9d260635bd5240e327a5038c5a65cf4fae96851c61ff688e9ceab18d82"
     },
     "baoyu-image-gen": {
       "source": "JimLiu/baoyu-skills",
@@ -49,30 +16,55 @@
       "installedAt": "2026-08-18T03:07:26.656Z",
       "updatedAt": "2026-08-18T03:07:26.656Z"
     },
+    "baoyu-post-to-wechat": {
+      "source": "JimLiu/baoyu-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/JimLiu/baoyu-skills.git",
+      "ref": "main",
+      "skillPath": "skills/baoyu-post-to-wechat/SKILL.md",
+      "skillFolderHash": "9bce808b49beba0d9413545ead01b1e827d262d7",
+      "installedAt": "2026-08-13T12:52:39.065Z",
+      "updatedAt": "2026-08-13T12:52:39.065Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "ref": "main",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "installedAt": "2026-08-13T08:43:21.071Z",
+      "updatedAt": "2026-08-13T08:43:21.071Z"
+    },
     "pdf": {
       "source": "anthropics/skills",
       "ref": "main",
       "sourceType": "github",
       "skillPath": "skills/pdf/SKILL.md",
       "computedHash": "37226d4220d844377e6b2a386c51a011df4cd130855ff0b80bcc22f9c28abd57"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "ref": "main",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "skillFolderHash": "3cf9a8db32597ba3e24b584a3d696f4e11c7d7b6",
+      "installedAt": "2026-08-17T08:32:04.839Z",
+      "updatedAt": "2026-08-17T08:32:04.839Z"
+    },
+    "skill-vetter-zh": {
+      "source": "clawhub.ai",
+      "sourceType": "well-known",
+      "sourceUrl": "https://wry-manatee-359.convex.site/api/v1/agent-skills/xocio/skill-vetter-zh/archive?version=1.0.0",
+      "skillFolderHash": "",
+      "installedAt": "2026-08-13T10:34:52.618Z",
+      "updatedAt": "2026-08-14T04:20:55.491Z"
+    },
+    "wechat-ai-pipeline": {
+      "source": "D:\\ZCODE\\zerol-skills\\wechat-ai-pipeline",
+      "sourceType": "local",
+      "computedHash": "ce4c16c36dd8c0820428bc45d6d7b7c0e5852740d77199a05b42e9af62255ab8"
     }
-  },
-  "dismissed": {
-    "findSkillsPrompt": true
-  },
-  "lastSelectedAgents": [
-    "amp",
-    "antigravity",
-    "antigravity-cli",
-    "cline",
-    "codex",
-    "cursor",
-    "deepagents",
-    "gemini-cli",
-    "github-copilot",
-    "kimi-code-cli",
-    "opencode",
-    "warp",
-    "zed"
-  ]
+  }
 }
