@@ -1,0 +1,27 @@
+帮我写一个 nodejs 脚本，实现快捷操作软链接
+
+项目根目录：node-linker
+
+使用（建立软链接）：node linker add "D:\ManyConfigs\.others"
+执行步骤：
+通过分隔符获取最后一个文件夹：.others
+获取用户目录
+执行前确认：是否建立软链接？下面打印出要执行的命令
+选择否，退出，选择是，则执行命令
+执行：mklink /J "<用户目录>\.others" "D:\ManyConfigs\.others"
+
+使用（删除软链接）：node linker rm "D:\ManyConfigs\.others"
+执行步骤：
+通过分隔符获取最后一个文件夹：.others
+获取用户目录
+得到新文件夹字符串：用户目录+.others
+判断目录是否存在，不存在则无需操作
+如果存在
+执行前确认：是否删除软链接？下面打印出要执行的命令
+选择否，退出，选择是，则执行命令
+执行：rmdir "<用户目录>\.others"
+
+使用（软链接列表）：node linker list
+展示用户目录所有的软链接
+
+让 linker 变成全局包，就像使用 npm i linker -g 安装的一样，使用时只需要：linker add <路径>

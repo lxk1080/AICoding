@@ -1,0 +1,144 @@
+#!/usr/bin/env node
+
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const readline = require('node:readline/promises');
+const { stdin, stdout } = require('node:process');
+const { execFileSync } = require('node:child_process');
+
+function usage() {
+  console.log('无效的指令！');
+  console.log('用法：');
+  console.log('  node linker add "D:\\ManyConfigs\\.others"');
+  console.log('  node linker rm  "D:\\ManyConfigs\\.others"');
+  console.log('  node linker list');
+}
+
+function quote(arg) {
+  return `"${arg.replace(/"/g, '\\"')}"`;
+}
+
+async function confirm(message, command) {
+  console.log(`\n将执行命令：\n${command}`);
+  const rl = readline.createInterface({ input: stdin, output: stdout });
+  try {
+    const answer = await rl.question(`\n${message} (y/N) `);
+    return ['y', 'yes', '是'].includes(answer.trim().toLowerCase());
+  } finally {
+    rl.close();
+  }
+}
+
+function getLinkPath(source) {
+  const folderName = path.basename(path.normalize(source));
+  if (!folderName || folderName === '.' || folderName === path.parse(folderName).root) {
+    throw new Error('无法从目标路径获取最后一个文件夹名称。');
+  }
+  return path.join(os.homedir(), folderName);
+}
+
+function getLinkType(linkPath) {
+  // Node.js 会将 Junction 和 Symbolic Link 一同识别为 isSymbolicLink()。
+  // 通过 NTFS 重解析点标签进一步区分：MOUNT_POINT 是 Junction，SYMLINK 是符号链接。
+  try {
+    const output = execFileSync('fsutil', ['reparsepoint', 'query', linkPath], {
+      encoding: 'utf8',
+      windowsHide: true,
+    });
+    const tag = output.match(/0x[0-9a-f]+/i)?.[0].toLowerCase();
+    if (tag === '0xa0000003') return 'Junction';
+    if (tag === '0xa000000c') return 'Symbolic Link';
+  } catch {
+    // 某些系统策略可能不允许查询；仍可将其展示为未细分的链接。
+  }
+  return 'Link（类型未知）';
+}
+
+async function main() {
+  const [action, source] = process.argv.slice(2);
+  if (!['add', 'rm', 'list'].includes(action) || (action !== 'list' && !source)) {
+    usage();
+    process.exitCode = 1;
+    return;
+  }
+  if (process.platform !== 'win32') {
+    throw new Error('此脚本仅支持 Windows（使用 mklink /J）。');
+  }
+
+  if (action === 'list') {
+    const homeDir = os.homedir();
+    const links = fs.readdirSync(homeDir, { withFileTypes: true })
+      .filter((entry) => fs.lstatSync(path.join(homeDir, entry.name)).isSymbolicLink())
+      .map((entry) => {
+        const linkPath = path.join(homeDir, entry.name);
+        let destination = '（无法读取目标）';
+        try {
+          destination = fs.readlinkSync(linkPath);
+        } catch {
+          // 仍展示链接本身；读取链接目标失败不影响列表功能。
+        }
+        if (/^c:[\\/]/i.test(destination)) {
+          return null;
+        }
+        return { name: entry.name, destination, type: getLinkType(linkPath) };
+      })
+      .filter(Boolean);
+
+    if (links.length === 0) {
+      console.log(`用户目录中没有目标不在 C 盘的软链接：${homeDir}`);
+      return;
+    }
+
+    console.log(`用户目录中的软链接（${homeDir}）：`);
+    for (const { name, destination, type } of links) {
+      console.log(`  [${type}] ${name} -> ${destination}`);
+    }
+    return;
+  }
+
+  const target = path.resolve(source);
+  const linkPath = getLinkPath(target);
+
+  if (action === 'add') {
+    if (!fs.existsSync(target)) {
+      throw new Error(`源目录不存在：${target}`);
+    }
+    if (!fs.statSync(target).isDirectory()) {
+      throw new Error(`源路径不是目录：${target}`);
+    }
+    if (fs.existsSync(linkPath)) {
+      throw new Error(`链接位置已存在：${linkPath}`);
+    }
+
+    const command = `mklink /J ${quote(linkPath)} ${quote(target)}`;
+    if (!await confirm('是否建立软链接？', command)) {
+      console.log('已取消。');
+      return;
+    }
+    execFileSync('cmd.exe', ['/d', '/c', 'mklink', '/J', linkPath, target], { stdio: 'inherit' });
+    return;
+  }
+
+  if (!fs.existsSync(linkPath)) {
+    console.log(`目录不存在，无需操作：${linkPath}`);
+    return;
+  }
+
+  // rmdir 对普通目录同样生效；只允许删除 Junction/ 符号链接，避免误删真实目录。
+  if (!fs.lstatSync(linkPath).isSymbolicLink()) {
+    throw new Error(`目标不是软链接或 Junction，已停止以防误删：${linkPath}`);
+  }
+
+  const command = `rmdir ${quote(linkPath)}`;
+  if (!await confirm('是否删除软链接？', command)) {
+    console.log('已取消。');
+    return;
+  }
+  execFileSync('cmd.exe', ['/d', '/c', 'rmdir', linkPath], { stdio: 'inherit' });
+}
+
+main().catch((error) => {
+  console.error(`错误：${error.message}`);
+  process.exitCode = 1;
+});

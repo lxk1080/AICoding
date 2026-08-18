@@ -1,0 +1,14 @@
+{
+  "name": "node-linker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Windows Junction 快捷操作脚本",
+  "bin": {
+    "linker": "./linker"
+  },
+  "scripts": {
+    "add": "node linker add",
+    "rm": "node linker rm",
+    "list": "node linker list"
+  }
+}
