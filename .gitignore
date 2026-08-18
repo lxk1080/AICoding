@@ -14,7 +14,6 @@ __pycache__/
 *.pyc
 
 # 环境变量
-.env
 .env.local
 .env.*.local
 
@@ -39,7 +38,6 @@ mimo_api_key.txt
 audio_file.wav
 
 # agent 相关文件
-.agents/
 .claude/skills/
 .mcp.json
 .playwright-mcp/
